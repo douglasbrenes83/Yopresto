@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yopresto Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/dashboard/style.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .logout-button {
+            background-color: #f44336; /* Rojo brillante */
+            color: white; /* Texto blanco */
+            padding: 10px 20px; /* Relleno alrededor del texto */
+            border: none; /* Sin borde */
+            border-radius: 5px; /* Bordes redondeados */
+            font-size: 16px; /* Tamaño de fuente */
+            cursor: pointer; /* Cambiar el cursor cuando se pasa por encima */
+            transition: background-color 0.3s ease; /* Efecto suave al pasar el ratón */
+            display: flex; /* Para alinear el icono y el texto */
+            align-items: center; /* Centra verticalmente el icono y el texto */
+            gap: 10px; /* Espacio entre el icono y el texto */
+        }
+        
+        .logout-button i {
+            font-size: 20px; /* Tamaño del icono */
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h4 class="text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
+                <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2z"/>
+            </svg> Dashboard
+        </h4>
+        <div class="contimagen">
+            <img src="{% static 'css/login/imageneslogin/login.jpg' %}" alt="Fondo Login" class="img-fluid">
+        </div>
+        <hr>
+        <a href="{% url 'dashboard' %}">Inicio</a>
+        <a href="{% url 'cliente_list' %}">Clientes</a>
+        <a href="{% url 'prestamo_list' %}">Préstamos</a>
+        <a href="{% url 'pagos_por_rango' %}">Pagos</a>
+        <a href="{% url 'dashboard' %}"><p>Notificacion {{ cantidad_prestamos_vencidos }}</p></a>
+        <!-- Agrega más enlaces según tus necesidades -->
+        
+    </div>
+
+    <div class="content">
+     
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Yopresto</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+               <!-- Reloj y Fecha -->
+        <div class="clock-container text-center mt-3">
+            <h5 id="clock"></h5>
+        </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="POST" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="logout-button">
+                                <i class="bi bi-door-closed"></i> Salir
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Contenido dinámico -->
+        <div class="container-fluid mt-4">
+            {% block content %}
+            <div class="jumbotron text-center">
+                <h1 class="display-4">Bienvenido a YoPresto</h1>
+                <p class="lead">Gestiona clientes y préstamos de forma eficiente.</p>
+                <hr class="my-4">
+                <p>Selecciona una opción del menú para comenzar.</p>
+
+                
+            </div>
+            <div class="container">
+                <h3>Notificación de Préstamos Vencidos</h3>
+                <p>Préstamos vencidos hoy: {{ cantidad_prestamos_vencidos }}</p>
+                
+                {% if prestamos_vencidos_hoy %}
+                    <ul>
+                        {% for prestamo in prestamos_vencidos_hoy %}
+                            <li>
+                                Cliente: {{ prestamo.cliente }} - Monto: ${{ prestamo.monto }} - SaldoActual: ${{ prestamo.saldo_actual }} - Fecha de vencimiento: {{ prestamo.fecha_vencimiento }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No hay préstamos vencidos hoy.</p>
+                {% endif %}
+            </div>
+    
+            {% endblock %}
+        </div>
+        
+        
+
+    </div>
+        <footer class="text-center py-1">
+        <p>&copy; 2024 Tecnoservicios ByG. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Reloj y Fecha Script -->
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const day = now.getDate().toString().padStart(2, '0');
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const year = now.getFullYear();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            const dateString = `${day}/${month}/${year}`;
+
+            document.getElementById('clock').innerHTML = `${dateString} - ${timeString}`;
+        }
+
+        setInterval(updateClock, 1000); // Actualiza cada segundo
+        updateClock(); // Inicializa la hora
+    </script>
+</body>
+</html>

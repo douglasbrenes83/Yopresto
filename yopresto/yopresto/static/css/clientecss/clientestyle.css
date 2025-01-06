@@ -1,0 +1,74 @@
+/* Estilo general para el cuerpo */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+/* Título */
+h1 {
+    color: #343a40;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Estilos del formulario */
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón principal */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+}
+
+/* Botón de volver */
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Contenedor del formulario */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Centrando el contenido */
+.text-center {
+    text-align: center;
+}
+
+/* Campos del formulario */
+form p {
+    margin-bottom: 15px;
+}
+
+/* Fondo claro en los inputs */
+form input, form select {
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+/* Sombra en los botones al pasar el cursor */
+.btn-primary:hover, .btn-secondary:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Espacio entre el formulario y el botón */
+form button {
+    margin-top: 20px;
+}

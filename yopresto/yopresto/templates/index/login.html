@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Yopresto</title>
+    <link rel="stylesheet" href="{% static 'css/login/Login.css' %}">
+</head>
+
+<body>
+
+    <div class="logo-container">
+        <h1>BIENVENIDO</h1>
+        <div class="contimagen"><img src="{% static 'css/login/imageneslogin/login.jpg' %}" alt="Fondo Login"></div>
+    </div>
+    <div class="form-container">
+        <div class="title">
+            <h2>INGRESA TUS DATOS</h2>
+        </div>
+        <form method="POST" class="form">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Nombre de Usuario" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <button type="submit" class="btn">INGRESAR</button>
+            <p>¿Olvidaste tu contraseña? <a href="#" class="link">RECUPERAR</a></p>
+            {% if error_message %}
+                <p class="error-message">{{ error_message }}</p>
+            {% endif %}
+        </form>
+    </div>
+
+</body>
+
+</html>

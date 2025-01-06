@@ -1,0 +1,85 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    height: 100vh;
+    background-color: #343a40;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    padding-top: 20px;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: block;
+}
+
+.sidebar a:hover {
+    background-color: #495057;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+}
+.nav a{
+    font-family: stencil;
+}
+
+.navbar-brand {
+    font-family: Stencil;
+}
+
+footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.logout-button {
+    background-color: #f44336; /* Rojo brillante */
+    color: white; /* Texto blanco */
+    padding: 10px 20px; /* Relleno alrededor del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambiar el cursor cuando se pasa por encima */
+    transition: background-color 0.3s ease; /* Efecto suave al pasar el ratón */
+    display: flex; /* Para alinear el icono y el texto */
+    align-items: center; /* Centra verticalmente el icono y el texto */
+    gap: 10px; /* Espacio entre el icono y el texto */
+}
+
+.logout-button i {
+    font-size: 20px; /* Tamaño del icono */
+}
+
+.logout-button:hover {
+    background-color: #d32f2f; /* Rojo más oscuro al pasar el ratón */
+}
+
+.logout-button:active {
+    background-color: #c62828; /* Rojo aún más oscuro cuando se hace clic */
+}

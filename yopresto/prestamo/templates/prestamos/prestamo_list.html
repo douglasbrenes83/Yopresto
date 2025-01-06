@@ -1,0 +1,85 @@
+{% extends 'Dashboard/dashboard.html' %}
+
+{% block content %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagos por Rango</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="mb-4">Lista de Préstamos</h2>
+
+    <!-- Botón para agregar un nuevo préstamo -->
+    <div class="mb-3">
+        <div class="d-flex gap-2">
+            <!-- Botón para agregar préstamo -->
+            <a href="{% url 'prestamo_create' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Agregar Préstamo
+            </a>
+    
+            <!-- Botón para redirigir a préstamos activos -->
+            <a href="{% url 'prestamo_activos' %}" class="btn btn-info">
+                <i class="fas fa-list"></i> Ver Préstamos Activos
+            </a>
+        </div>
+    </div>
+
+    <!-- Tabla de préstamos -->
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>id_cliente</th>
+                <th>Cliente</th>
+                <th>Monto</th>
+                <th>Interéses</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Vencimiento</th>
+                <th>Saldo Actual</th> <!-- Nueva columna para saldo_actual -->
+                <th>Estado</th> <!-- Nueva columna para estado -->
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prestamo in prestamos %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ prestamo.cliente.id }}</td>
+                <td>{{ prestamo.cliente.nombre }}</td>
+                <td>C${{ prestamo.monto|floatformat:2 }}</td>
+                <td>{{ prestamo.tasa_interes }}</td>
+                <td>{{ prestamo.fecha_inicio|date:"d/m/Y" }}</td>
+                <td>{{ prestamo.fecha_vencimiento|date:"d/m/Y" }}</td>
+                <td>C${{ prestamo.saldo_actual|floatformat:2 }}</td> <!-- Mostrar saldo_actual -->
+                <td>{{ prestamo.estado }}</td> <!-- Mostrar estado -->
+                <td>{{ prestamo.descripcion }}</td>
+                <td>
+                    <!-- Enlaces para acciones (editar y eliminar) -->
+                    <div class="d-flex justify-content-start gap-2">
+                        <a href="{% url 'editar_prestamo' prestamo.pk %}" class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+                        <a href="{% url 'prestamo_delete' prestamo.pk %}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </a>
+                        <a href="{% url 'pago_create' prestamo_id=prestamo.id %}" class="btn btn-primary">Registrar Pago</a>
+                        <a href="{% url 'prestamo_pagos' pk=prestamo.id %}" class="btn btn-success btn-sm">
+                            Ver Detalle
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="11" class="text-center">No hay préstamos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+{% endblock %}

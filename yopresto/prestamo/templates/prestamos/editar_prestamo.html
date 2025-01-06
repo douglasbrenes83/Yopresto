@@ -1,0 +1,79 @@
+{% extends 'Dashboard/dashboard.html' %}
+
+{% block content %}
+<h1>Editar Préstamo</h1>
+<form method="post" class="shadow p-4 rounded bg-light">
+    {% csrf_token %}
+    
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>¡Error!</strong> Corrige los errores en el formulario.
+        </div>
+    {% endif %}
+
+    <!-- Cliente -->
+    <div class="form-group">
+        <label for="cliente">Cliente:</label>
+        {{ form.cliente }}  <!-- Aquí se muestra el cliente relacionado -->
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="monto">Monto</label>
+                {{ form.monto }}
+            </div>
+            <div class="form-group">
+                <label for="saldo_actual">Saldo Actual</label>
+                <input type="text" id="saldo_actual" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                <label for="tasa_interes">Tasa de Interés (%)</label>
+                {{ form.tasa_interes }}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="fecha_inicio">Fecha de Inicio</label>
+                {{ form.fecha_inicio }}
+            </div>
+            <div class="form-group">
+                <label for="fecha_vencimiento">Fecha de Vencimiento</label>
+                {{ form.fecha_vencimiento }}
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado</label>
+                {{ form.estado }}
+            </div>
+                <!-- Descripción -->
+             <div class="form-group">
+             <label for="descripcion">Descripción</label>
+             {{ form.descripcion }}  <!-- Aquí está el campo de descripción -->
+             </div>
+
+        </div>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary mt-3">Actualizar</button>
+    <a href="{% url 'prestamo_list' %}" class="btn btn-secondary mt-3">Volver</a>
+</form>
+
+<!-- Script para calcular saldo_actual -->
+<script>
+    function calcularSaldoActual() {
+        const monto = parseFloat(document.getElementById('id_monto').value) || 0;
+        const tasaInteres = parseFloat(document.getElementById('id_tasa_interes').value) || 0;
+        const saldoActual = monto + (monto * tasaInteres / 100);
+        document.getElementById('saldo_actual').value = saldoActual.toFixed(2);
+    }
+
+    // Actualizar saldo_actual al cambiar monto o tasa de interes
+    document.getElementById('id_monto').addEventListener('input', calcularSaldoActual);
+    document.getElementById('id_tasa_interes').addEventListener('input', calcularSaldoActual);
+
+    // Calcular saldo_actual al cargar la página si ya hay valores
+    window.addEventListener('load', calcularSaldoActual);
+</script>
+{% endblock %}
