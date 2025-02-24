@@ -11,11 +11,18 @@ from django.urls import reverse_lazy
 from .models import Cliente
 from .forms import ClienteForm
 
-class ClienteListView(LoginRequiredMixin,ListView):
-    login_url = 'index' 
+class ClienteListView(LoginRequiredMixin, ListView):
+    login_url = 'index'
     model = Cliente
     template_name = 'clientes/cliente_list.html'
     context_object_name = 'clientes'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(nombre__icontains=query) | queryset.filter(cedula__icontains=query)
+        return queryset
 
 class ClienteCreateView(LoginRequiredMixin,CreateView):
     login_url = 'index' 

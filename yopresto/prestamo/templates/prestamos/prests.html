@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Préstamos Vencidos</h1>
+    <a href="{% url 'exportar_prestamos_vencidos' %}" class="btn btn-success mb-3">Descargar Reporte Excel</a>
+    
+    {% if prestamos %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Monto</th>
+                <th>Fecha de Vencimiento</th>
+                <th>Días Vencidos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prestamo in prestamos %}
+            <tr>
+                <td>{{ prestamo.id }}</td>
+                <td>{{ prestamo.cliente }}</td>
+                <td>{{ prestamo.monto }}</td>
+                <td>{{ prestamo.fecha_vencimiento }}</td>
+                <td>{{ prestamo.dias_vencidos }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay préstamos vencidos.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'Dashboard/dashboard.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Reporte de Préstamos - {{ mes }}</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Cédula</th>
+                <th>Monto</th>
+                <th>Tasa de Interés (%)</th>
+                <th>Interés Mensual</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Vencimiento</th>
+                <th>Saldo Actual</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dato in datos %}
+            <tr>
+                <td>{{ dato.cliente }}</td>
+                <td>{{ dato.cedula }}</td>
+                <td>{{ dato.monto }}</td>
+                <td>{{ dato.tasa_interes }}</td>
+                <td>{{ dato.interes_mensual }}</td>
+                <td>{{ dato.fecha_inicio }}</td>
+                <td>{{ dato.fecha_vencimiento }}</td>
+                <td>{{ dato.saldo_actual }}</td>
+                <td>{{ dato.estado }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Resumen del Mes</h3>
+    <p><strong>Total de Préstamos:</strong> {{ total_prestamos }}</p>
+    <p><strong>Total de Intereses:</strong> {{ total_intereses }}</p>
+</div>
+<a href="{% url 'descargar_reporte_excel' %}" class="btn btn-success">Descargar Reporte en Excel</a>
+
+{% endblock %}
